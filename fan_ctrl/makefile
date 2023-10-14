@@ -15,19 +15,30 @@ CXXFLAGS := \
 	-DSETTINGS_FILE_NAME='"$(SETTINGS_FILE_NAME)"' \
 	-DFAN_DATA_FILE_NAME='"$(FAN_DATA_FILE_NAME)"'
 
-SRCS := ./src/*
-OBJS := $(SRCS:.cpp=.o)
+
+$(shell mkdir -p ./obj)
+
+OBJDIR = ./obj/
+
+SRCDIR := ./src/
+SRCFILES := $(patsubst $(SRCDIR)%.cpp, $(OBJDIR)%.o, $(wildcard $(SRCDIR)*.cpp))
+SRCFILENAMES := $(notdir $(SRCFILES))
+
+OBJSNAMES := $(SRCFILENAMES:.cpp=.o)
+OBJS := $(addprefix $(OBJDIR), $(OBJSNAMES))
+
 EXEC := /bin/fan_ctrl
 
 all: $(EXEC) createConf 
 
 $(EXEC): $(OBJS)
-	$(CXX) $(CXXFLAGS) $(OBJS) -o $(EXEC) -lwiringPi
+	$(CXX) $(CXXFLAGS) $^ -o $@ -lwiringPi
 
-%.o: %.cpp
-	$(CXX) $(CXXFLAGS) -c $< -o $@ 
+$(OBJDIR)%.o: $(SRCDIR)%.cpp
+	$(CXX) $(CXXFLAGS) -c $^ -o $@
 
 clean:
+	sudo rm -f ./obj/*.o
 	sudo rm -f /bin/fan_ctrl
 
 createConf:
@@ -40,4 +51,4 @@ createConf:
 	chmod 755 /etc/systemd/system/fan_ctrl.service
 	systemctl daemon-reload
 	systemctl enable fan_ctrl
-	systemctl restart fan_ctrl
+	systemctl start fan_ctrl

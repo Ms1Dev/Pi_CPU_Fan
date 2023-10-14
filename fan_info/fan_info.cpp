@@ -28,7 +28,7 @@ int main(int argc, char const *argv[])
             fan_speed = "  |  Fan Power: " + fan_speed + " %";
         }
 
-        std::cout << "CPU Temperature: " << cpu->getTemp() << "°C" << fan_speed << "\t\r" << std::flush;
+        std::cout << "CPU Temperature: " << cpu->getTemp() << "°C" << fan_speed << "             \t\r" << std::flush;
         usleep(REFRESH_RATE_MICROS);
     }
 

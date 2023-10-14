@@ -4,7 +4,7 @@
 #include "cpu.h"
 
 #define PWM_PIN 1
-#define REFRESH_RATE_MICROS 10000000
+#define REFRESH_RATE_MICROS 5000000
 
 int main(int argc, char const *argv[])
 {
