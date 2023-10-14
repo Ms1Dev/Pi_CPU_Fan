@@ -1,0 +1,15 @@
+[Unit]
+Description=CPU Fan Control
+
+[Service]
+Type=simple
+User=root
+Group=root
+ExecStart=/bin/fan_ctrl
+Restart=on-failure
+RestartSec=10
+KillMode=process
+OpenFile=/etc/fan_ctrl/fan_speed
+
+[Install]
+WantedBy=multi-user.target
