@@ -13,6 +13,10 @@
     #define UPPER_LIMIT_KEY "FAN_TEMP_UPPER"
 #endif
 
+
+/**
+ * @brief Monitors the cpu temperature
+*/
 class CPU
 {
 private:
@@ -27,9 +31,25 @@ private:
     int _temp_upper_limit;
 public:
     CPU();
+
+    /**
+     * @brief Returns the current temperature of the CPU
+    */
     float getTemp();
+
+    /**
+     * @brief returns the temperature as a percentage between the upper and lower limits
+    */
     int getTempPrcnt();
+
+    /**
+     * @brief Returns the lower limit - the temperature the fan starts
+    */
     int getLowerLimit();
+
+    /**
+     * @brief Returns the upper limit - the temperature the fan is at max power
+    */
     int getUpperLimit();
 };
 
