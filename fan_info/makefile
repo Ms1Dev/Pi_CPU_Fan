@@ -23,8 +23,9 @@ OBJS := $(addprefix $(OBJDIR), $(OBJSNAMES))
 EXEC := /bin/fan_info
 
 all: $(EXEC)
-	alias faninfo='($(EXEC))'
-
+	touch /home/michael-zwann/.bash_aliases
+	grep -q -F "alias faninfo='($(EXEC))'" "/home/michael-zwann/.bash_aliases" || echo "alias faninfo='($(EXEC))'" >> /home/michael-zwann/.bash_aliases
+	
 $(EXEC): $(OBJS)
 	$(CXX) $(CXXFLAGS) $^ -o $@
 
