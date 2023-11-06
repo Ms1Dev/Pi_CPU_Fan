@@ -11,7 +11,7 @@
 class Fan
 {
 private:
-    const int _min_power = 150;
+    const int _min_power = 120;
     const int _max_power = 400;
     const double _constantMultiplier;
 
@@ -39,6 +39,11 @@ public:
      * @brief Sets the power percentage of the cooling fan 
     */
     void set_power_prcnt(int);
+
+    /**
+     * @brief Returns true if the fan power is above 0%
+    */
+    bool isRunning();
 };
 
 #endif
