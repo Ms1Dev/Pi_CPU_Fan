@@ -11,7 +11,7 @@
 class Fan
 {
 private:
-    const int _min_power = 120;
+    const int _min_power = 140;
     const int _max_power = 400;
     const double _constantMultiplier;
 

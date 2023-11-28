@@ -19,7 +19,7 @@ void Fan::set_power_prcnt(int power)
     // boost to get it going as it wont start at lowest power
     if (!isRunning() && power > 0) {
         pwmWrite(pwm_pin, _min_power + 50);
-        delay(500);
+        delay(1000);
     }
     powerPrcnt = power;
     if (powerPrcnt > 100) {
