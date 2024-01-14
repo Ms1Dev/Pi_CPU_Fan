@@ -1,25 +1,36 @@
 #include "fan.h"
-#include <wiringPi.h>
+#include <pigpiod_if2.h>
 #include <cmath>
 #include <fstream>
 #include <random>
+#include <exception>
 
 Fan::Fan(int pwm_pin) :
 _constantMultiplier(_calcConstantMultiplier())
 {   
     this->pwm_pin = pwm_pin;
     powerPrcnt = 0;
-    if (wiringPiSetup() != -1) {
-       pinMode(pwm_pin, PWM_OUTPUT); 
+    pi_id = pigpio_start(NULL, NULL);
+    if (pi_id < 0) {
+        throw std::runtime_error("Failed to initialise GPIO");
+    }
+    else {
+        set_mode(pi_id, pwm_pin, PI_ALT0); 
     }
 }
+
+Fan::~Fan() 
+{
+    pigpio_stop(pi_id);
+}
+
 
 void Fan::set_power_prcnt(int power)
 {
     // boost to get it going as it wont start at lowest power
     if (!isRunning() && power > 0) {
-        pwmWrite(pwm_pin, _min_power + 50);
-        delay(1000);
+        set_PWM_dutycycle(pi_id, pwm_pin, (_min_power + 50) / 4);
+        time_sleep(1);
     }
     powerPrcnt = power;
     if (powerPrcnt > 100) {
@@ -62,7 +73,7 @@ void Fan::_set_power()
         double power_out = 1 * pow(_constantMultiplier, powerPrcnt);
         output = power_out + 0.5 + _min_power;
     }
-    pwmWrite(pwm_pin, output);
+    set_PWM_dutycycle(pi_id, pwm_pin, output / 4);
 }
 
 void Fan::_write_speed_data_file()

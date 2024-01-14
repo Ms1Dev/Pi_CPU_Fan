@@ -32,7 +32,7 @@ EXEC := /bin/fan_ctrl
 all: $(EXEC) createConf 
 
 $(EXEC): $(OBJS)
-	$(CXX) $(CXXFLAGS) $^ -o $@ -lwiringPi
+	$(CXX) $(CXXFLAGS) -pthread $^ -o $@ -lpigpiod_if2 -lrt
 
 $(OBJDIR)%.o: $(SRCDIR)%.cpp
 	$(CXX) $(CXXFLAGS) -c $^ -o $@

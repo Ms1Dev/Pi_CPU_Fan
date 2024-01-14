@@ -17,6 +17,7 @@ private:
 
     int pwm_pin;
     int powerPrcnt;
+    int pi_id;
 
     /**
      * @brief Calculates the constant multiplier to be used with exponential throttle increase
@@ -34,6 +35,8 @@ private:
     void _write_speed_data_file();
 public:
     Fan(int);
+
+    ~Fan();
 
     /**
      * @brief Sets the power percentage of the cooling fan 

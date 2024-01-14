@@ -3,7 +3,7 @@
 #include "fan.h"
 #include "cpu.h"
 
-#define PWM_PIN 1
+#define PWM_PIN 18
 #define REFRESH_RATE_MICROS 5000000
 #define FAN_ON_TEMP_OFFSET 10
 
